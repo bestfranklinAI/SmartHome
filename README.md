@@ -2,6 +2,8 @@
 ![](SmartHome.png)
 
 
+Demo Website: https://smart-home-ochre.vercel.app/
+
 # Getting Started with Create React App
 
 
