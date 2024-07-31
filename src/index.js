@@ -1,13 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+import Data from './components/Data';
+import Button from './components/Button';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const button = ReactDOM.createRoot(document.getElementById('button-wrapper'));
 root.render(
   <React.StrictMode>
-    <App />
+    <Data />
+  </React.StrictMode>
+);
+
+button.render(
+  <React.StrictMode>
+    <Button />
   </React.StrictMode>
 );
 

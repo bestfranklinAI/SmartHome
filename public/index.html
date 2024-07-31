@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Web site created using create-react-app" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    crossorigin="anonymous" />
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    crossorigin="anonymous" />
+  <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
+  <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
@@ -24,20 +26,75 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+  <title>Smart Home</title>
+</head>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+<body style="background-color: 	#F0FFFF";>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a href="/">
+      <img src="%PUBLIC_URL%/images/logo.png" alt="logo" style="width: 200px; height: 50px; margin-right: 10px" />
+    </a>
+    <button class="navbar-toggler mg-0-right" type="button" data-toggle="collapse" data-target="#navbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+    <div class="collapse navbar-collapse" id="navbar">
+      <div class="navbar-nav">
+
+        <a class="nav-item nav-link" id="home" href="/">Home</a>
+        <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+        <a class="nav-item nav-link" id="Upload" href="/upload">Upload</a>
+        <a class="nav-item nav-link" id="analysis" href="/analysis">Analysis</a>
+        <a class="nav-item nav-link" id="history" href="/history">History</a>
+
+        <a class="nav-item nav-link" id="login" href="/login">Login</a>
+        <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
+
+      </div>
+    </div>
+
+
+    <div class="navbar-nav ml-auto">
+      <img class="sign-in-logo" src="%PUBLIC_URL%/logo512.png" alt="user" style="width: 50px; height: 50px" />
+    </div>
+
+  </nav>
+
+
+
+
+
+
+  <div style="padding: 0 50px 0 50px;">
+
+    <img src="%PUBLIC_URL%/images/sensor.gif" alt="Sensor Image" />
+    <div id="wrapper" style="display:flex;">
+      <div style="width:45%;" id="root"></div>
+      <img style="width: 45%;" src="%PUBLIC_URL%/images/chart.gif" alt="chart" />
+    </div>
+
+    <div style="display:flex;">
+      <div id="button-wrapper" style="width:50%;"></div>
+
+      <div id="widgets" style="display: none; overflow:auto; width: 55%;">
+
+        <div id="openweathermap-widget-15" style="width: 25%; margin: 50px; float: left;"></div>
+        <script>window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = []; window.myWidgetParam.push({ id: 15, cityid: '1819730', appid: '5953ec06754809576db0b05871c30e4a', units: 'metric', containerid: 'openweathermap-widget-15', }); (function () { var script = document.createElement('script'); script.async = true; script.charset = "utf-8"; script.src = "//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js"; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s); })();</script>
+
+        <video src="%PUBLIC_URL%/images/weather.mp4" alt="weather" loop autoplay width="300px" height="300px"
+          style="margin-left: 100px;">
+          Your browser does not support the video tag.
+        </video>
+
+        <div id="openweathermap-widget-11" style="width: 45%; margin: 50px;"></div>
+        <script src='//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/d3.min.js'></script>
+        <script>window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = []; window.myWidgetParam.push({ id: 11, cityid: '1819730', appid: '5953ec06754809576db0b05871c30e4a', units: 'metric', containerid: 'openweathermap-widget-11', }); (function () { var script = document.createElement('script'); script.async = true; script.charset = "utf-8"; script.src = "//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js"; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s); })();</script>
+
+      </div>
+    </div>
+  </div>
+
+
+</body>
+
 </html>
