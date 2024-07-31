@@ -324,23 +324,31 @@ function Data() {
       0.0008528 * temp * Math.pow(humidity, 2) -
       0.00000199 * Math.pow(adjustedTemp, 2) * Math.pow(humidity, 2);
 
-      var adjustedHeatIndex = (heatIndex - 32) * (5 / 9);
+    var adjustedHeatIndex = (heatIndex - 32) * (5 / 9);
     return adjustedHeatIndex.toFixed(1);
   }
 
-
-
-  return (
+  if (currentIndex === 0) {
+    return (
+      <div>
+        <h1>Loading...</h1>
+      </div>
+    );
+  } else {
+    return (
       <div>
         <h1>Temperature : {currentItem.temperature} °C</h1>
         <h1>Humidity {currentItem.humidity} %</h1>
-        <h1 style={{color: "blue"}}>Apparent Temperature : {apparentTemp(currentItem.temperature, currentItem.humidity/100)} °C</h1>
+        <h1 style={{ color: "blue" }}>
+          Apparent Temperature :{" "}
+          {apparentTemp(currentItem.temperature, currentItem.humidity / 100)} °C
+        </h1>
         <h1>Motion : {currentItem.motion}</h1>
         <h1>Light : {currentItem.light} Lux</h1>
         <h1>Time : {new Date().toLocaleTimeString()}</h1>
       </div>
-      
-  );
+    );
+  }
 }
 
 export default Data;
