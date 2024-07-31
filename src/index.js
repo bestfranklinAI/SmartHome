@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import Data from './components/Data';
 import Button from './components/Button';
+import Model from './components/Model';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const button = ReactDOM.createRoot(document.getElementById('button-wrapper'));
+const model = ReactDOM.createRoot(document.getElementById('model-wrapper'));
+
 root.render(
   <React.StrictMode>
     <Data />
@@ -16,6 +19,12 @@ root.render(
 button.render(
   <React.StrictMode>
     <Button />
+  </React.StrictMode>
+);
+
+model.render(
+  <React.StrictMode>
+    <Model />
   </React.StrictMode>
 );
 
