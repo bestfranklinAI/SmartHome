@@ -10,7 +10,7 @@ import reportWebVitals from './reportWebVitals';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const button = ReactDOM.createRoot(document.getElementById('button-wrapper'));
 const model = ReactDOM.createRoot(document.getElementById('model-wrapper'));
-const leaderboard = ReactDOM.createRoot(document.getElementById('leaderboard-wrapper'));
+const leader = ReactDOM.createRoot(document.getElementById('leaderboard-wrapper'));
 
 root.render(
   <React.StrictMode>
@@ -31,7 +31,7 @@ model.render(
 );
 
 
-leaderboard.render(
+leader.render(
   <React.StrictMode>
     <Leaderboard />
   </React.StrictMode>
