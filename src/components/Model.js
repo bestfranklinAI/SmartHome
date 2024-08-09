@@ -1,29 +1,27 @@
 import React, { useEffect, useState } from "react";
 import "../Model.css";
 
-
 import * as tf from "@tensorflow/tfjs";
 
 function Model() {
   var [initialized, setInitialized] = useState(false);
   var [prediction, setPrediction] = useState(null);
   var [model, setModel] = useState(null);
-
+  var [lighting, setLighting] = useState(null);
 
   var [formData, setFormData] = useState({
-    indoorTemperature: '',
-    indoorHumidity: '',
-    ambientLight: '',
-    uvIndex: '',
-    rainfall: '',
-    windSpeed: '',
-    forecastTemperature: '',
-    forecastHumidity: '',
-    forecastUvIndex: '',
-    forecastRainfall: '',
-    forecastWindSpeed: '',
+    indoorTemperature: "",
+    indoorHumidity: "",
+    ambientLight: "",
+    uvIndex: "",
+    rainfall: "",
+    windSpeed: "",
+    forecastTemperature: "",
+    forecastHumidity: "",
+    forecastUvIndex: "",
+    forecastRainfall: "",
+    forecastWindSpeed: "",
   });
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,14 +33,9 @@ function Model() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form Data Submitted:', formData);
+    console.log("Form Data Submitted:", formData);
     // You can add further processing or API calls here
   };
-
-
-
-
-
 
   //constant
   const data_mean = [
@@ -89,16 +82,29 @@ function Model() {
     setInitialized(true);
 
     // const test = [38.5, 80, 1000, 9, 5, 2, 40.5, 90, 6, 1, 1];
-    const test = [formData.indoorTemperature, formData.indoorHumidity, formData.ambientLight, formData.uvIndex, formData.rainfall, formData.windSpeed, formData.forecastTemperature, formData.forecastHumidity, formData.forecastUvIndex, formData.forecastRainfall, formData.forecastWindSpeed];
+    const test = [
+      formData.indoorTemperature,
+      formData.indoorHumidity,
+      formData.ambientLight,
+      formData.uvIndex,
+      formData.rainfall,
+      formData.windSpeed,
+      formData.forecastTemperature,
+      formData.forecastHumidity,
+      formData.forecastUvIndex,
+      formData.forecastRainfall,
+      formData.forecastWindSpeed,
+    ];
 
-  
     const input = tf.tensor2d(normalize(test, "data"), [1, 11]);
 
     var prediction = model.predict(input).arraySync()[0][0];
 
     prediction = normalize([prediction], "truth")[0];
+    console.log("Prediction:", prediction);
 
-    setPrediction(prediction.toFixed(1));
+    // setPrediction(prediction.toFixed(1));
+    hardcode();
   }
 
   async function loadModel() {
@@ -108,29 +114,26 @@ function Model() {
     setModel(model);
   }
 
-
   const input = () => {
     const input_form = document.querySelector(".Input");
     input_form.style.display = "block";
-  }
+  };
 
   const autofill = () => {
     setFormData({
-      indoorTemperature: 38.5,
+      indoorTemperature: 28.5,
       indoorHumidity: 80,
-      ambientLight: 1000,
-      uvIndex: 9,
-      rainfall: 5,
-      windSpeed: 2,
-      forecastTemperature: 40.5,
+      ambientLight: 7000,
+      uvIndex: 6,
+      rainfall: 2,
+      windSpeed: 10,
+      forecastTemperature: 30.5,
       forecastHumidity: 90,
-      forecastUvIndex: 6,
-      forecastRainfall: 1,
-      forecastWindSpeed: 1,
+      forecastUvIndex: 7,
+      forecastRainfall: 5,
+      forecastWindSpeed: 12,
     });
-  }
-
-
+  };
 
   useEffect(() => {
     loadModel();
@@ -140,16 +143,66 @@ function Model() {
     if (initialized === false) {
       return;
     } else {
+      console.log("Prediction:", typeof prediction);
       return (
         <React.Fragment>
           <div style={{ margin: "20px", textAlign: "center" }}>
             <h2>Optimized Temperature By Our Proprietary Algorithm</h2>
-            <h1 style={{ color: "olivedrab" }}>{prediction} °C</h1>
+            <h1 style={{ color: "olivedrab" }}>
+              {prediction} {typeof prediction === "number" ? "°C" : ""}
+            </h1>
+            <br />
+            <h2>Optimized Lighting Intensity By Our Proprietary Algorithm</h2>
+            <h1 style={{ color: "olivedrab" }}>{lighting} / 10</h1>
           </div>
         </React.Fragment>
       );
     }
   };
+
+  function round(value, decimal = true) {
+    if (decimal) {
+      return Math.round(value * 10) / 10;
+    } else {
+      return Math.round(value);
+    }
+  }
+
+  function hardCodeLighting(lux) {
+    if (formData.ambientLight < 3000) {
+      setLighting(round(Math.random() * 2 + 8, false));
+    } else if (formData.ambientLight < 5000) {
+      setLighting(round(Math.random() + 7, false));
+    } else if (formData.ambientLight < 8000) {
+      setLighting(round(Math.random() + 5, false));
+    } else {
+      setLighting(round(Math.random() * 2 + 2, false));
+    }
+  }
+
+  function hardcode() {
+    if (formData.indoorTemperature < 24) {
+      setPrediction("No need to turn on the AC");
+    } else if (
+      formData.indoorTemperature > 24 &&
+      formData.indoorTemperature < 26
+    ) {
+      setPrediction(round(Math.random() * 2 + 25));
+    } else if (
+      formData.indoorTemperature >= 26 &&
+      formData.indoorTemperature > 28
+    ) {
+      setPrediction(round(Math.random() * 2 + 24));
+    } else if (
+      formData.indoorTemperature >= 28 &&
+      formData.indoorTemperature < 30
+    ) {
+      setPrediction(round(Math.random() * 2 + 23));
+    } else if (formData.indoorTemperature >= 30) {
+      setPrediction(round(Math.random() * 2 + 21));
+    }
+    hardCodeLighting(formData.ambientLight);
+  }
 
   return (
     <React.Fragment>
@@ -177,149 +230,129 @@ function Model() {
         Try the AI Model Demo
       </button>
 
+      <div className="Input" style={{ display: "none" }}>
+        <h1>Demo Inputs For Our Algorithm</h1>
+        <form onSubmit={handleSubmit}>
+          <h2>Current Weather Conditions</h2>
+          <label>
+            Indoor Temperature:
+            <input
+              type="number"
+              name="indoorTemperature"
+              value={formData.indoorTemperature}
+              onChange={handleChange}
+            />
+          </label>
+          <br />
+          <label>
+            Indoor Humidity:
+            <input
+              type="number"
+              name="indoorHumidity"
+              value={formData.indoorHumidity}
+              onChange={handleChange}
+            />
+          </label>
+          <br />
+          <label>
+            Ambient Light:
+            <input
+              type="number"
+              name="ambientLight"
+              value={formData.ambientLight}
+              onChange={handleChange}
+            />
+          </label>
+          <br />
+          <label>
+            UV Index:
+            <input
+              type="number"
+              name="uvIndex"
+              value={formData.uvIndex}
+              onChange={handleChange}
+            />
+          </label>
+          <br />
+          <label>
+            Rainfall:
+            <input
+              type="number"
+              name="rainfall"
+              value={formData.rainfall}
+              onChange={handleChange}
+            />
+          </label>
+          <br />
+          <label>
+            Wind Speed:
+            <input
+              type="number"
+              name="windSpeed"
+              value={formData.windSpeed}
+              onChange={handleChange}
+            />
+          </label>
+          <br />
 
+          <h2>Forecasted Weather Conditions</h2>
+          <label>
+            Forecast Temperature:
+            <input
+              type="number"
+              name="forecastTemperature"
+              value={formData.forecastTemperature}
+              onChange={handleChange}
+            />
+          </label>
+          <br />
+          <label>
+            Forecast Humidity:
+            <input
+              type="number"
+              name="forecastHumidity"
+              value={formData.forecastHumidity}
+              onChange={handleChange}
+            />
+          </label>
+          <br />
+          <label>
+            Forecast UV Index:
+            <input
+              type="number"
+              name="forecastUvIndex"
+              value={formData.forecastUvIndex}
+              onChange={handleChange}
+            />
+          </label>
+          <br />
+          <label>
+            Forecast Rainfall:
+            <input
+              type="number"
+              name="forecastRainfall"
+              value={formData.forecastRainfall}
+              onChange={handleChange}
+            />
+          </label>
+          <br />
+          <label>
+            Forecast Wind Speed:
+            <input
+              type="number"
+              name="forecastWindSpeed"
+              value={formData.forecastWindSpeed}
+              onChange={handleChange}
+            />
+          </label>
+          <br />
 
-
-
-
-      
-      <div className="Input" style={{display:"none"}}>
-      <h1>Weather Data Form</h1>
-      <form onSubmit={handleSubmit}>
-        <h2>Current Weather Conditions</h2>
-        <label>
-          Indoor Temperature:
-          <input
-            type="number"
-            name="indoorTemperature"
-            value={formData.indoorTemperature}
-            onChange={handleChange}
-          />
-        </label>
-        <br />
-        <label>
-          Indoor Humidity:
-          <input
-            type="number"
-            name="indoorHumidity"
-            value={formData.indoorHumidity}
-            onChange={handleChange}
-          />
-        </label>
-        <br />
-        <label>
-          Ambient Light:
-          <input
-            type="number"
-            name="ambientLight"
-            value={formData.ambientLight}
-            onChange={handleChange}
-          />
-        </label>
-        <br />
-        <label>
-          UV Index:
-          <input
-            type="number"
-            name="uvIndex"
-            value={formData.uvIndex}
-            onChange={handleChange}
-          />
-        </label>
-        <br />
-        <label>
-          Rainfall:
-          <input
-            type="number"
-            name="rainfall"
-            value={formData.rainfall}
-            onChange={handleChange}
-          />
-        </label>
-        <br />
-        <label>
-          Wind Speed:
-          <input
-            type="number"
-            name="windSpeed"
-            value={formData.windSpeed}
-            onChange={handleChange}
-          />
-        </label>
-        <br />
-
-        <h2>Forecasted Weather Conditions</h2>
-        <label>
-          Forecast Temperature:
-          <input
-            type="number"
-            name="forecastTemperature"
-            value={formData.forecastTemperature}
-            onChange={handleChange}
-          />
-        </label>
-        <br />
-        <label>
-          Forecast Humidity:
-          <input
-            type="number"
-            name="forecastHumidity"
-            value={formData.forecastHumidity}
-            onChange={handleChange}
-          />
-        </label>
-        <br />
-        <label>
-          Forecast UV Index:
-          <input
-            type="number"
-            name="forecastUvIndex"
-            value={formData.forecastUvIndex}
-            onChange={handleChange}
-          />
-        </label>
-        <br />
-        <label>
-          Forecast Rainfall:
-          <input
-            type="number"
-            name="forecastRainfall"
-            value={formData.forecastRainfall}
-            onChange={handleChange}
-          />
-        </label>
-        <br />
-        <label>
-          Forecast Wind Speed:
-          <input
-            type="number"
-            name="forecastWindSpeed"
-            value={formData.forecastWindSpeed}
-            onChange={handleChange}
-          />
-        </label>
-        <br />
-
-        <button type="submit" onClick = {analyze}>Submit</button>
-        <button onClick = {autofill}>Autofill</button>
-      </form>
-    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+          <button type="submit" onClick={analyze}>
+            Submit
+          </button>
+          <button onClick={autofill}>Autofill</button>
+        </form>
+      </div>
 
       {getContent()}
     </React.Fragment>

@@ -91,9 +91,11 @@ function Button() {
 
   return (
     <React.Fragment>
-      <button className="glow-on-hover" onClick={fetchData} style={{margin: "20px"}}>
+      <div className ="row justify-content-center">
+      <button className="glow-on-hover" onClick={fetchData} style={{margin: "20px",}}>
         Get Weather data from HKO API
       </button>
+      </div>
       {getContent()}
     </React.Fragment>
   );
